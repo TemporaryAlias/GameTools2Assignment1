@@ -27,7 +27,13 @@ public class Movement : MonoBehaviour {
         } else if (Mathf.Abs(Input.GetAxis("Vertical")) <= 0 && currentSpeed > 0) {
             currentSpeed -= moveWindDown;
         }
-        
+
+        if (Input.GetAxis("Vertical") < 0 && currentSpeed > -walkSpeed) {
+            currentSpeed -= moveBuildup;
+        } else if (Input.GetAxis("Vertical") >= 0 && currentSpeed + moveWindDown < 0) {
+            currentSpeed += moveWindDown;
+        }
+
         if (isRunning && currentSpeed >= walkSpeed && currentSpeed <= runSpeed - moveBuildup) {
             currentSpeed += moveBuildup;
         } else if (!isRunning && currentSpeed >= walkSpeed) {
