@@ -39,11 +39,15 @@ public class Movement : MonoBehaviour {
         } else if (!isRunning && currentSpeed >= walkSpeed) {
             currentSpeed -= moveWindDown;
         }
-        
-        float turn = Mathf.Lerp(anim.GetFloat("Turn"), Input.GetAxis("Horizontal"), Time.deltaTime);
 
+        //float turn = Mathf.Lerp(anim.GetFloat("Turn"), Input.GetAxis("Horizontal"), Time.deltaTime);
+        
+        float width = Screen.width;
+        float turn = (Input.mousePosition.x - width / 2) / Screen.width;
+        
         anim.SetFloat("Forward", currentSpeed / runSpeed);
         anim.SetFloat("Turn", turn);
+
     }
 
     void Update() {
