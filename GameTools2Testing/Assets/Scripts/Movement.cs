@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-    public KeyCode runKey, crouchKey;
+    public KeyCode runKey, crouchKey, interactKey;
 
     public float walkSpeed;
     public float runSpeed;
     public float moveBuildup;
     public float moveWindDown;
 
-    bool isRunning, isCrouching;
+    bool isRunning, isCrouching, turnLock;
 
     float currentSpeed = 0;
 
@@ -19,6 +19,8 @@ public class Movement : MonoBehaviour {
 
     void Start() {
         anim = GetComponent<Animator>();
+
+        turnLock = false;
     }
 
     void FixedUpdate() {
@@ -42,11 +44,13 @@ public class Movement : MonoBehaviour {
 
         //float turn = Mathf.Lerp(anim.GetFloat("Turn"), Input.GetAxis("Horizontal"), Time.deltaTime);
         
-        float width = Screen.width;
-        float turn = (Input.mousePosition.x - width / 2) / Screen.width;
-        
+        if (!turnLock) {
+            float width = Screen.width;
+            float turn = (Input.mousePosition.x - width / 2) / Screen.width;
+            anim.SetFloat("Turn", turn);
+        }
+
         anim.SetFloat("Forward", currentSpeed / runSpeed);
-        anim.SetFloat("Turn", turn);
 
     }
 

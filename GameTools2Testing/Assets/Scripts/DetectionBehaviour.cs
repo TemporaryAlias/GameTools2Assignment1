@@ -22,8 +22,7 @@ public class DetectionBehaviour : MonoBehaviour {
             RaycastHit ray;
 
             Vector3 rayDirection = (col.gameObject.transform.position - parentTransform.transform.position).normalized;
-
-            //Physics.Raycast(parentTransform.position, col.transform.position, out ray);
+            
 
             Debug.DrawRay(parentTransform.position, rayDirection);
             Physics.Raycast(parentTransform.position, rayDirection, out ray, Mathf.Infinity, hitLayer);
