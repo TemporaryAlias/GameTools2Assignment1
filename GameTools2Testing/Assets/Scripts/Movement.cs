@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour {
     public float runSpeed;
     public float moveBuildup;
     public float moveWindDown;
+    public float turnSpeed;
 
     bool isRunning, isCrouching, turnLock;
 
@@ -23,7 +24,7 @@ public class Movement : MonoBehaviour {
         turnLock = false;
     }
 
-    void FixedUpdate() {
+    void Update() {
         if (Input.GetAxis("Vertical") > 0 && currentSpeed < walkSpeed) {
             currentSpeed += moveBuildup;
         } else if (Mathf.Abs(Input.GetAxis("Vertical")) <= 0 && currentSpeed > 0) {
@@ -46,24 +47,27 @@ public class Movement : MonoBehaviour {
         
         if (!turnLock) {
             float width = Screen.width;
-            float turn = (Input.mousePosition.x - width / 2) / Screen.width;
+            //float turn = (Input.mousePosition.x - width / 2) / Screen.width;
+
+            float turn = Mathf.Lerp(anim.GetFloat("Turn"), (Input.mousePosition.x - width / 2) / Screen.width, turnSpeed);
+
             anim.SetFloat("Turn", turn);
         }
 
         anim.SetFloat("Forward", currentSpeed / runSpeed);
 
-    }
-
-    void Update() {
         isRunning = Input.GetKey(runKey);
 
-        if (Input.GetKeyDown(runKey) && isCrouching) {
+        if (Input.GetKeyDown(runKey) && isCrouching)
+        {
             isCrouching = false;
         }
 
-        if (Input.GetKeyDown(crouchKey)) {
+        if (Input.GetKeyDown(crouchKey))
+        {
             isCrouching = !isCrouching;
         }
+
     }
 
 }
